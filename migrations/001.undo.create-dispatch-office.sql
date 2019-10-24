@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS warehouses;
 DROP TABLE IF EXISTS drivers;
 DROP TABLE IF EXISTS equipments;
 DROP TABLE IF EXISTS carriers;
