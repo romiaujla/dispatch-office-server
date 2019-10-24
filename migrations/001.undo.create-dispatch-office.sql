@@ -1,4 +1,7 @@
+DROP TABLE IF EXISTS shipments;
+DROP TYPE IF EXISTS shipment_status;
 DROP TABLE IF EXISTS warehouses;
 DROP TABLE IF EXISTS drivers;
 DROP TABLE IF EXISTS equipments;
+DROP TYPE IF EXISTS active_status;
 DROP TABLE IF EXISTS carriers;
