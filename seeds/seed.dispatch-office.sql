@@ -34,7 +34,26 @@ INSERT INTO carriers
     (username, password, company_name, full_name, mc_num)
     VALUES
     ('romiaujla', '$2a$12$AJQDMQE7C2rKWZHcMiQjqeVZASFQXuz2tHGQu1hIUs6444OMmezjW', 'aujla star transport llc', 'ramanpreet singh aujla', '968302'),
-    ('dundermifflin', '$2a$12$fN64sChSm6YICplSHtc70eM8v3auCG6cdzSjZyP5bCLDE9kDsQQPe', 'dunder mifflin trucking llc', 'dunder mifflin', '001234');
+    ('dundermifflin', '$2a$12$fN64sChSm6YICplSHtc70eM8v3auCG6cdzSjZyP5bCLDE9kDsQQPe', 'dunder mifflin trucking llc', 'dunder mifflin', '001234'),
+    ('newuser', 'password', 'New User Trucking LLC', 'New User', '000000');
+
+
+INSERT INTO equipments
+    (unit_num, carrier_id)
+    VALUES
+    ('101', 1),
+    ('102', 1),
+    ('103', 1),
+    ('104', 1),
+    ('105', 1),
+    ('106', 1),
+    ('749', 2),
+    ('701', 2),
+    ('703', 2),
+    ('707', 2),
+    ('1545', 2),
+    ('166', 2);
+
 
 
 COMMIT;
