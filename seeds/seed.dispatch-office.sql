@@ -1,3 +1,5 @@
+BEGIN;
+
 INSERT INTO warehouses
     (city, state, zipcode)
     VALUES
@@ -25,4 +27,14 @@ INSERT INTO warehouses
     ('Carteret','NJ','07006'),
     ('Avenel','NJ','07001'),
     ('Coldwater','MI','49036');
-    
+
+
+-- password being inserted are hashed using bcryptjs and salt is 12. 
+INSERT INTO carriers
+    (username, password, company_name, full_name, mc_num)
+    VALUES
+    ('romiaujla', '$2a$12$AJQDMQE7C2rKWZHcMiQjqeVZASFQXuz2tHGQu1hIUs6444OMmezjW', 'aujla star transport llc', 'ramanpreet singh aujla', '968302'),
+    ('dundermifflin', '$2a$12$fN64sChSm6YICplSHtc70eM8v3auCG6cdzSjZyP5bCLDE9kDsQQPe', 'dunder mifflin trucking llc', 'dunder mifflin', '001234');
+
+
+COMMIT;
