@@ -54,6 +54,40 @@ INSERT INTO equipments
     ('1545', 2),
     ('166', 2);
 
+-- inserting inactive equipment
+INSERT INTO equipments
+    (unit_num, carrier_id, status)
+    VALUES
+    ('1001', 1, 'inactive'),
+    ('5145', 2, 'inactive'),
+    ('3333', 1, 'inactive');
+
+INSERT INTO drivers
+    (full_name, pay_rate, equipment_id, carrier_id)
+    VALUES
+    ('William Bradley', 0.36, 1, 1),
+    ('David Richards', 0.42, 2, 1),
+    ('Pros Savath', 0.45, 3, 1),
+    ('John Kennedy', 0.42, 4, 1),
+    ('Brian Lewis', 0.42, 5, 1),
+    ('Albert Placeres', 0.43, 6, 1),
+    ('Lamont Squires', 0.44, 7, 2),
+    ('Lamont Purnell', 0.44, 8, 2),
+    ('Timothy Squires', 0.40, null, 1),
+    ('Leia Goodwin', 0.45, null, 2),
+    ('Sondra Buelow', 0.45, null, 2),
+    ('Billy Fritts', 0.45, null, 2),
+    ('Verdie Drey', 0.50, null, 2),
+    ('Ruby Kimsey', 0.51, null, 2);
+
+-- adding 4 inactive drivers
+INSERT INTO drivers
+    (full_name, pay_rate, equipment_id, carrier_id, status)
+    VALUES
+    ('Katrina Guth', 0.00, null, 1, 'inactive'),
+    ('Nickie Connery', 0.00, null, 1, 'inactive'),
+    ('Alfred Wiebe', 0.00, null, 2, 'inactive'),
+    ('Tianna Holmberg', 0.00, null, 2, 'inactive');
 
 
 COMMIT;

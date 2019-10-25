@@ -26,6 +26,7 @@ CREATE TABLE drivers(
     full_name TEXT NOT NULL,
     pay_rate NUMERIC(5,2) DEFAULT 0.00 NOT NULL,
     equipment_id INTEGER REFERENCES equipments(id) ON DELETE SET NULL UNIQUE,
+    carrier_id INTEGER REFERENCES carriers(id) ON DELETE CASCADE,
     status active_status DEFAULT 'active' NOT NULL
 );
 
