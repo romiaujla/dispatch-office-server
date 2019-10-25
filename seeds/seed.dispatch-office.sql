@@ -89,5 +89,47 @@ INSERT INTO drivers
     ('Alfred Wiebe', 0.00, null, 2, 'inactive'),
     ('Tianna Holmberg', 0.00, null, 2, 'inactive');
 
+-- unassigned loads
+INSERT INTO shipments
+    (rate, miles, broker, pickup_date, pickup_warehouse, delivery_date, delivery_warehouse)
+    VALUES
+    (1200.00, 280, 'CH Robinson', '2019-11-01', 2, '2019-11-01', 3),
+    (340.00, 10, 'TQL', '2019-12-02', 22, '2019-12-02', 23);
+
+-- dispatched loads
+INSERT INTO shipments
+    (rate, status, broker, driver_id)
+    VALUES
+    (700, 'dispatched', 'CH Robinson', 2),
+    (800, 'dispatched', 'TQL', 1),
+    (2400, 'dispatched', 'R&R Express', 4);
+
+-- currently loading
+INSERT INTO shipments
+    (rate, status, broker, driver_id)
+    VALUES
+    (1000, 'loading', 'CH Robinson', 8),
+    (1200, 'loading', 'TQL', 7);
+
+-- currently in transit
+INSERT INTO shipments
+    (rate, status, broker, driver_id)
+    VALUES
+    (1300, 'in transit', 'JB Hunt', 6),
+    (2000, 'in transit', 'Crowley Logistics', 3);
+
+-- unloading shipment
+INSERT INTO shipments
+    (rate, status, broker, driver_id, pickup_date, delivery_warehouse, delivery_date)
+    VALUES
+    (2100, 'unloading', 'JB Hunt', 5, '2019-10-20', 2, NOW());
+
+-- completed shipment
+INSERT INTO shipments
+    (rate, status, broker, driver_id, pickup_date, delivery_date)
+    VALUES
+    (2300, 'completed', 'JB Hunt', 1, CURRENT_DATE-5,CURRENT_DATE-3),
+    (2100, 'completed', 'CH Robinson', 2, CURRENT_DATE-5, CURRENT_DATE-3),
+    (900, 'completed', 'Yellow Transportation', 6, CURRENT_DATE-3, CURRENT_DATE-1);
 
 COMMIT;
