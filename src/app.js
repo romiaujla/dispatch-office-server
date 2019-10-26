@@ -6,6 +6,7 @@ const cors = require ('cors');
 const helmet = require('helmet');
 const carrierRouter = require('./carriers/carriers-router');
 const errorHandler = require('./middleware/error-handler');
+const authRouter = require('./auth/auth-router');
 
 const app = express();
 const morganOptions = NODE_ENV === 'production' 
@@ -16,6 +17,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use(`/api`, carrierRouter);
-
+app.use('/api/auth', authRouter);
 app.use(errorHandler);
+
 module.exports = app;
