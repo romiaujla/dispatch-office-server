@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 const AuthService = {
-    getUserWithUserNAme(db, username){
+    getUserWithUserName(db, username){
         return db('carriers')
             .where({ username })
             .first();
