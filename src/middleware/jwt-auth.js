@@ -20,30 +20,25 @@ function jwtAuth(req, res, next) {
 
         const { sub } = AuthService.verifyJwt(jwtToken);
 
-        AuthService.getUserWithUserNAme(
+        AuthService.getUserWithUserName(
             req.app.get('db'),
             sub
         )
-            .then((carrier) => {
-                if(!carrier){
-                    return res
-                        .status(401)
-                        .json({
-                            error: {
-                                message: `Unauthorized Request`
-                            }
-                        })
-                }
-
-                req.carrier = carrier;
-                next();
-            })
-            .catch((error) => {
-                console.log(error);
-                next(error);
-            })
-
-    } catch (error) {
+        .then((carrier) => {
+            if(!carrier){
+                return res
+                    .status(401)
+                    .json({
+                        error: {
+                            message: `Unauthorized Request`
+                        }
+                    })
+            }
+            
+            req.carrier = carrier;
+            next();    
+        })
+    } catch (error) { 
         res
             .status(401)
             .json({
@@ -52,8 +47,6 @@ function jwtAuth(req, res, next) {
                 }
             })
     }
-
-    next();
 }
 
 module.exports = {

@@ -10,8 +10,8 @@ authRouter
             username, 
             password
         }
-        console.log(loginUser);
 
+        // Check if username and password are not empty fields
         for(const [key, value] of Object.entries(loginUser)){
             if(value == null){
                 return res

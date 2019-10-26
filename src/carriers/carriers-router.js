@@ -2,13 +2,16 @@ const express = require('express');
 const carrierRouter = express.Router();
 const CarrierService = require('./carriers-service');
 const { jwtAuth } = require('../middleware/jwt-auth');
+const AuthService = require('../auth/auth-service');
 
 carrierRouter
     .route('/loads')
     .all(jwtAuth)
     .get((req, res, next) => {
         const db = req.app.get('db');
-        CarrierService.getLoads(db, 1)
+        const carrier_id = req.carrier.id;
+        
+        CarrierService.getLoads(db, carrier_id)
             .then((loads) => {
                 if (!loads) {
                     return res
@@ -31,6 +34,9 @@ carrierRouter
                 return res
                     .status(200)
                     .json(loads);
+            })
+            .catch((error) => {
+                next(error);
             })
     })
 
