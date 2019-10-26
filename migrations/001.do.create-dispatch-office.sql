@@ -56,7 +56,8 @@ CREATE TABLE shipments(
     pickup_date DATE NOT NULL DEFAULT CURRENT_DATE,
     pickup_warehouse INTEGER REFERENCES warehouses(id) DEFAULT FLOOR(RANDOM()*24)+1,
     delivery_date DATE NOT NULL DEFAULT CURRENT_DATE+1,
-    delivery_warehouse INTEGER REFERENCES warehouses(id) DEFAULT FLOOR(RANDOM()*24)+1
+    delivery_warehouse INTEGER REFERENCES warehouses(id) DEFAULT FLOOR(RANDOM()*24)+1,
+    carrier_id INTEGER REFERENCES carriers(id) NOT NULL
 );
 
 COMMIT;
