@@ -35,7 +35,7 @@ INSERT INTO carriers
     VALUES
     ('romiaujla', '$2a$12$AJQDMQE7C2rKWZHcMiQjqeVZASFQXuz2tHGQu1hIUs6444OMmezjW', 'aujla star transport llc', 'ramanpreet singh aujla', '968302'),
     ('dundermifflin', '$2a$12$fN64sChSm6YICplSHtc70eM8v3auCG6cdzSjZyP5bCLDE9kDsQQPe', 'dunder mifflin trucking llc', 'dunder mifflin', '001234'),
-    ('newuser', 'password', 'New User Trucking LLC', 'New User', '000000');
+    ('newuser', '$2a$12$fN64sChSm6YICplSHtc70eM8v3auCG6cdzSjZyP5bCLDE9kDsQQPe', 'New User Trucking LLC', 'New User', '000000');
 
 
 INSERT INTO equipments
