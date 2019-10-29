@@ -5,6 +5,33 @@ const { jwtAuth } = require('../middleware/jwt-auth');
 const AuthService = require('../auth/auth-service');
 
 carrierRouter
+    .route('/carrier')
+    .all(jwtAuth)
+    .get((req, res, next) => {
+        const db = req.app.get('db');
+        const carrier_id = req.carrier.id;
+        CarrierService.getCarrierData(db, carrier_id)
+            .then((carrierData) => {
+                if(!carrierData){
+                    return res
+                        .status(400)
+                        .json({
+                            error: {
+                                message: `Carrier Data could not be retrieved`
+                            }
+                        })
+                } 
+                
+                return res
+                    .status(200)
+                    .json(carrierData);
+            })
+            .catch((error) => {
+                next(error);
+            })
+    });
+
+carrierRouter
     .route('/loads')
     .all(jwtAuth)
     .get((req, res, next) => {
