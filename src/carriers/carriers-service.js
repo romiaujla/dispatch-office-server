@@ -14,37 +14,66 @@ const CarrierService = {
                           'id', dr.id,
                           'full_name', dr.full_name,
                           'pay_rate', dr.pay_rate,
-                          ${db.raw(
-                              `json_strip_nulls(
-                                json_biuld_object(
-                                    'id', eq.id,
-                                    'unit_num', eq.unit_num
-                                )
-                              ) AS "equipment"`
-                          )},
                           'status', dr.status
                         )
                       ) AS "driver"`
                 ),
+                db.raw(
+                    `json_strip_nulls(
+                        json_build_object(
+                          'id', eq.id,
+                          'unit_num', eq.unit_num,
+                          'status', eq.status
+                        )
+                      ) AS "equipment"`
+                ),
                 'ship.pickup_date',
-                'ship.pickup_warehouse',
+                db.raw(
+                    `json_strip_nulls(
+                        json_build_object(
+                            'id', pwh.id,
+                            'city', pwh.city,
+                            'state', pwh.state,
+                            'zipcode', pwh.zipcode
+                        )
+                    ) AS "pickup_warehouse"`
+                ),
                 'ship.delivery_date',
-                'ship.delivery_warehouse',
+                db.raw(
+                    `json_strip_nulls(
+                        json_build_object(
+                            'id', dwh.id,
+                            'city', dwh.city,
+                            'state', dwh.state,
+                            'zipcode', dwh.zipcode
+                        )
+                    ) AS "delivery_warehouse"`
+                )
             )
-            .leftJoin(
+            .join(
                 'carriers as usr',
                 'usr.id',
                 'ship.carrier_id'
             )
             .leftJoin(
                 'drivers as dr',
-                'dr.id',
-                'ship.driver_id'
+                'ship.driver_id',
+                'dr.id'
             )
             .leftJoin(
                 'equipments as eq',
-                'eq.id',
-                'dr.id'
+                'dr.equipment_id',
+                'eq.id'
+            )
+            .join(
+                'warehouses as pwh',
+                'ship.pickup_warehouse',
+                'pwh.id'
+            )
+            .join(
+                'warehouses as dwh',
+                'ship.delivery_warehouse',
+                'dwh.id'
             )
             .where(
                 `ship.carrier_id`,
