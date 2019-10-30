@@ -63,7 +63,13 @@ authRouter
                             authToken: AuthService.createJwt(
                                 sub,
                                 payload
-                            )
+                            ),
+                            loggedInUser: {
+                                username: dbCarrier.username,
+                                full_name: dbCarrier.full_name,
+                                company_name: dbCarrier.company_name,
+                                mc_num: dbCarrier.mc_num
+                            }
                         })
                     })
             })
