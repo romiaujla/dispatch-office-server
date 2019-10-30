@@ -80,6 +80,12 @@ const CarrierService = {
                 carrier_id
             );
     },
+    getCarrierInfo(db, id){
+        return db
+            .select('username', 'full_name', 'company_name', 'mc_num')
+            .from('carriers')
+            .where({ id });
+    }
 
 }
 
