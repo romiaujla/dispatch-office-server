@@ -1,8 +1,8 @@
 const CarrierService = {
-    getCarrierData(db, carrier_id){
+    getCarrierData(db, carrier_id) {
         return db
             .from('shipments as ship')
-            .select (
+            .select(
                 'ship.id',
                 'ship.rate',
                 'ship.status',
@@ -80,13 +80,40 @@ const CarrierService = {
                 carrier_id
             );
     },
-    getCarrierInfo(db, id){
+    getCarrierInfo(db, id) {
         return db
             .select('username', 'full_name', 'company_name', 'mc_num')
             .from('carriers')
             .where({ id });
-    }
-
+    },
+    getDrivers(db, carrier_id) {
+        return db
+            .from('drivers as dr')
+            .select(
+                'dr.id',
+                'dr.full_name',
+                'dr.pay_rate',
+                db.raw(
+                    `json_strip_nulls(
+                        json_build_object(
+                          'id', eq.id,
+                          'unit_num', eq.unit_num,
+                          'status', eq.status
+                        )
+                      ) AS "equipment"`
+                ),
+                'dr.status'
+            )
+            .leftJoin(
+                'equipments as eq',
+                'dr.equipment_id',
+                'eq.id'
+            )
+            .where(
+                'dr.carrier_id',
+                carrier_id
+            )
+    },
 }
 
 module.exports = CarrierService;
