@@ -2,7 +2,6 @@ const express = require('express');
 const carrierRouter = express.Router();
 const CarrierService = require('./carriers-service');
 const { jwtAuth } = require('../middleware/jwt-auth');
-const AuthService = require('../auth/auth-service');
 
 carrierRouter
     .route('/carrier')
@@ -58,40 +57,36 @@ carrierRouter
     })
 
 carrierRouter
-    .route('/loads')
+    .route('/drivers')
     .all(jwtAuth)
     .get((req, res, next) => {
         const db = req.app.get('db');
         const carrier_id = req.carrier.id;
-
-        CarrierService.getLoads(db, carrier_id)
-            .then((loads) => {
-                if (!loads) {
+        CarrierService.getDrivers(db, carrier_id)
+            .then((drivers) => {
+                if(!drivers){
                     return res
                         .status(400)
                         .json({
                             error: {
-                                message: `Loads could not be found at this time, please try again later`
-                            }
-                        })
-                } else if (loads.length === 0) {
-                    return res
-                        .status(404)
-                        .json({
-                            error: {
-                                message: `Carrier has no loads`
+                                message: `Could not retrieve drivers`
                             }
                         })
                 }
-
                 return res
                     .status(200)
-                    .json(loads);
+                    .json(drivers);
             })
             .catch((error) => {
                 next(error);
             })
     })
 
+carrierRouter
+    .route('/equipments')
+    .all(jwtAuth)
+    .get((req, res, next) => {
+
+    })
 
 module.exports = carrierRouter;
