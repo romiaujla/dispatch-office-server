@@ -1,5 +1,5 @@
 const express = require('express');
-const DriverService = require('./driver-service');
+const DriverService = require('./drivers-service');
 const driverRouter = express.Router();
 const {jwtAuth} = require('../middleware/jwt-auth');
 
