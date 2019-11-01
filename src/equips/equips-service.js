@@ -14,7 +14,7 @@ const EquipmentService = {
                           'pay_rate', dr.pay_rate,
                           'status', dr.status
                         )
-                      ) AS "equipment"`
+                      ) AS "driver"`
                 )
             )
             .leftJoin(
