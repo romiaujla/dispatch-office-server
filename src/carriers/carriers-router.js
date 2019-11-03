@@ -2,6 +2,7 @@ const express = require('express');
 const carrierRouter = express.Router();
 const CarrierService = require('./carriers-service');
 const { jwtAuth } = require('../middleware/jwt-auth');
+const { formatDate } = require('../helper/helper');
 
 carrierRouter
     .route('/carrier')
@@ -21,6 +22,11 @@ carrierRouter
                         })
                 }
 
+                carrierData.map((shipment) => {
+                    shipment.pickup_date = formatDate(shipment.pickup_date)
+                    shipment.delivery_date = formatDate(shipment.delivery_date)
+                })
+
                 return res
                     .status(200)
                     .json(carrierData);
@@ -38,7 +44,7 @@ carrierRouter
         const { id } = req.carrier;
         CarrierService.getCarrierInfo(db, id)
             .then((carrier) => {
-                if(!carrier){
+                if (!carrier) {
                     return res
                         .status(400)
                         .json({
@@ -64,7 +70,7 @@ carrierRouter
         const carrier_id = req.carrier.id;
         CarrierService.getDrivers(db, carrier_id)
             .then((drivers) => {
-                if(!drivers){
+                if (!drivers) {
                     return res
                         .status(400)
                         .json({
