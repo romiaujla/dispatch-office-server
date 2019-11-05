@@ -1,6 +1,6 @@
-function equipmentFieldsValidation(fields, res){
+function validateEquipment(req, res, next){
     
-    const {unit_num, status} = fields;
+    const {unit_num, status} = req.body;
 
     if(!unit_num){
         return res
@@ -32,8 +32,9 @@ function equipmentFieldsValidation(fields, res){
             })
     }
 
+    next();
 }
 
 module.exports = {
-    equipmentFieldsValidation
+    validateEquipment
 };

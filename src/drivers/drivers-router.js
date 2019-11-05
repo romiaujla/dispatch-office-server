@@ -3,7 +3,7 @@ const DriverService = require("./drivers-service");
 const driverRouter = express.Router();
 const { jwtAuth } = require("../middleware/jwt-auth");
 const bodyParser = express.json();
-const { validateNewDriverFields } = require("./drivers-validation");
+const { validateDriver } = require("./drivers-validation");
 
 driverRouter
   .route("/")
@@ -53,7 +53,7 @@ driverRouter
 driverRouter
   .route("/:id")
   .all(jwtAuth)
-  .patch(bodyParser, (req, res, next) => {
+  .patch(bodyParser, validateDriver, (req, res, next) => {
     const db = req.app.get("db");
     const carrier_id = req.carrier.id;
     const { id } = req.params;
@@ -64,8 +64,6 @@ driverRouter
       equipment_id: req.body.equipment_id,
       status: req.body.status
     };
-
-    validateNewDriverFields(newFields, res);
 
     DriverService.updateDrivers(db, id, newFields, carrier_id)
       .then(updatedDriver => {

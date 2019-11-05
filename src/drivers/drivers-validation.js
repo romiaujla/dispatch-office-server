@@ -1,8 +1,8 @@
-function validateNewDriverFields(fields, res){
+function validateDriver(req, res, next){
     
-    const {full_name, pay_rate, equipment_id } = fields
+    const {full_name, pay_rate, equipment_id } = req.body
 
-    if(full_name === ''){
+    if(full_name === '' || full_name === null){
         return res
             .status(400)
             .json({
@@ -32,8 +32,9 @@ function validateNewDriverFields(fields, res){
             })
     }
 
+    next();
 }
 
 module.exports = {
-    validateNewDriverFields,
+    validateDriver,
 }

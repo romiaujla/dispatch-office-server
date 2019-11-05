@@ -4,7 +4,7 @@ const equipsRouter = express.Router();
 const { jwtAuth } = require('../middleware/jwt-auth');
 const jsonParser = express.json();
 const {
-    equipmentFieldsValidation
+    validateEquipment
 } = require('./equips-validation');
 
 equipsRouter
@@ -33,16 +33,13 @@ equipsRouter
                 next(err);
             })
     })
-    .post(jsonParser, (req, res, next) => {
+    .post(jsonParser, validateEquipment, (req, res, next) => {
         const db = req.app.get('db');
         const carrier_id = req.carrier.id;
         const {
             unit_num,
             status = 'active',
         } = req.body
-
-        // Validation
-        equipmentFieldsValidation({unit_num, status}, res)
 
         const newEquipment = {
             unit_num,
@@ -106,7 +103,7 @@ equipsRouter
         const carrier_id = req.carrier.id;
 
         // Validation
-        equipmentFieldsValidation({unit_num, status}, res)
+        validateEquipment({unit_num, status}, res)
 
         const newEquipment = {
             unit_num,
