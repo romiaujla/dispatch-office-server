@@ -29,6 +29,9 @@ equipsRouter
                     .status(200)
                     .json(EquipmentService.serializeEquipmentsDriver(equipments));
             })
+            .catch((err) => {
+                next(err);
+            })
     })
     .post(jsonParser, (req, res, next) => {
         const db = req.app.get('db');
@@ -39,7 +42,7 @@ equipsRouter
         } = req.body
 
         // Validation
-        equipmentFieldsValidation({unit_num, status})
+        equipmentFieldsValidation({unit_num, status}, res)
 
         const newEquipment = {
             unit_num,
@@ -61,6 +64,9 @@ equipsRouter
                 return res
                     .status(200)
                     .json(EquipmentService.serializeEquipment(equipment))
+            })
+            .catch((err) => {
+                next(err);
             })
     })
 
@@ -86,6 +92,9 @@ equipsRouter
                     .status(200)
                     .json(EquipmentService.serializeEquipment(equipment));
             })
+            .catch((err)=>{
+                next(err);
+            })
     })
     .patch(jsonParser, (req, res, next) => {
         const {id} = req.params;
@@ -97,7 +106,7 @@ equipsRouter
         const carrier_id = req.carrier.id;
 
         // Validation
-        equipmentFieldsValidation({unit_num, status})
+        equipmentFieldsValidation({unit_num, status}, res)
 
         const newEquipment = {
             unit_num,
@@ -116,7 +125,7 @@ equipsRouter
                         })
                 }
 
-                EquipmentService.getEquipmentById(db, id, carrier_id)
+                return EquipmentService.getEquipmentById(db, id, carrier_id)
                     .then((equipment) => {
                         if(!equipment){
                             return res

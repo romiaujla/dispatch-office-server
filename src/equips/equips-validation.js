@@ -1,4 +1,4 @@
-function equipmentFieldsValidation(fields){
+function equipmentFieldsValidation(fields, res){
     
     const {unit_num, status} = fields;
 
