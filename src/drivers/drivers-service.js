@@ -76,6 +76,12 @@ const DriverService = {
             .where({ id })
             .andWhere({ carrier_id })
             .update(newFields);
+    },
+    insertDriver(db, newDriver){
+        return db('drivers')
+            .insert(newDriver)
+            .returning('*')
+            .then((rows)=>rows[0]);
     }
 }
 
