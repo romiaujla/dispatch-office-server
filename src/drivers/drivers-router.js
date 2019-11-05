@@ -3,7 +3,7 @@ const DriverService = require("./drivers-service");
 const driverRouter = express.Router();
 const { jwtAuth } = require("../middleware/jwt-auth");
 const bodyParser = express.json();
-const { validateDriver } = require("./drivers-validation");
+const { validateDriver, checkRequiredFields } = require("./drivers-validation");
 
 driverRouter
   .route("/")
@@ -26,7 +26,37 @@ driverRouter
       .catch(err => {
         next(err);
       });
-  });
+  })
+  .post(bodyParser, validateDriver, checkRequiredFields ,(req, res, next) => {
+    const db = req.app.get("db");
+    const carrier_id = req.carrier.id;
+    const { id } = req.params;
+
+    const newDriver = {
+      full_name: req.body.full_name,
+      pay_rate: req.body.pay_rate || 0.0,
+      equipment_id: req.body.equipment_id || null,
+      status: req.body.status || 'active',
+      carrier_id
+    };
+
+    DriverService.insertDriver(db, newDriver)
+      .then((driver) => {
+        if(!driver){
+          return res
+            .status(400)
+            .json({
+              error: {
+                message: `Driver could not be inserted`
+              }
+            })
+        }
+        return res.status(201).json(driver);
+      }).catch((err)=> {
+        next(err);
+      })
+      
+  })
 
 driverRouter
   .route("/idle")
