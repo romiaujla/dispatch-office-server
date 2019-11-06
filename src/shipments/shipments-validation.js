@@ -54,7 +54,35 @@ function validateShipment(req, res, next){
         return response(res, 400, `Delivery date is not a valid date`)
     }
 
+    if(isEmpty(pickup_city)){
+        return response(res, 400, `Pickup City cannot be empty spaces`)
+    }
+
+    if(isEmpty(delivery_city)){
+        return response(res, 400, `Delivery City cannot be empty spaces`)
+    }
+
+    if(isEmpty(pickup_state) || pickup_state.trim().length !== 2){
+        return response(res, 400, `Pickup state must be exactly two characters`)
+    }
+
+    if(isEmpty(delivery_state) || delivery_state.trim().length !== 2){
+        return response(res, 400, `Delivery state must be exactly two characters`)
+    }
+
+    if(isEmpty(delivery_zipcode)){
+        return response(res, 400, `Delivery zipcode is cannot be empty spaces`)
+    }
+
+    if(isEmpty(pickup_zipcode)){
+        return response(res, 400, `Pickup zipcode is cannot be empty spaces`)
+    }
+
     next();
+}
+
+function isEmpty(str){
+    return str.trim() === '';
 }
 
 function notValidDate(date){
