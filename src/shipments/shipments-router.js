@@ -49,7 +49,6 @@ shipmentsRouter
         } = req.body
         
         // get warehouse if it already exists, else create a new one
-        
         let pickup_warehouse = await getWarehouseId(
             db,
             pickup_city,
@@ -57,6 +56,19 @@ shipmentsRouter
             pickup_zipcode
         )
 
+        // Incase the previous serivce did not work 
+        // correctly throw the response for an error
+        if(!pickup_warehouse){
+            return res
+                .status(400)
+                .json({
+                    error: {
+                        message: `could not fetch warehouse id of pickup warehouse`
+                    }
+                })
+        }
+
+        // Repeating the pickup warehouse process for a delivery warehouse
         let delivery_warehouse = await getWarehouseId(
             db,
             delivery_city,
@@ -64,23 +76,79 @@ shipmentsRouter
             delivery_zipcode
         )
 
+        if(!delivery_warehouse){
+            return res
+                .status(400)
+                .json({
+                    error: {
+                        message: `could not fetch warehouse id of delivery warehouse`
+                    }
+                })
+        }
+
+        // then add the warehouse id's to the shipments.
         newShipment = {
             ...newShipment,
             pickup_warehouse,
             delivery_warehouse
         }
 
-        ShipmentsService.insertShipment(db, newShipment)
+        // add the new shipment and return the resulting shipment with the id.
+        return ShipmentsService.insertShipment(db, newShipment)
             .then((addedShipment) => {
                 if(!addedShipment){
                     return res
                         .json({
-
+                            error: {
+                                message: `Could not add shipment at this time`
+                            }
                         })
                 }
+                return res
+                    .json(addedShipment);
+            })
+            .catch((err) => {
+                next(err);
             })
 
-        res.json(newShipment);
+    })
+
+
+shipmentsRouter
+    .route('/:id')
+    .all(jwtAuth)
+    .delete((req, res, next) => {
+        const {id} = req.params;
+        const carrier_id = req.carrier.id
+        const db = req.app.get('db');
+
+        return ShipmentsService.deleteShipment(db, id, carrier_id)
+            .then((response) => {
+                if(!response){
+                    return res
+                        .status(400)
+                        .json({
+                            error: {
+                                message: `Delete could not be completed`
+                            }
+                        })
+                }
+                return res.status(201).end();
+            })
+            .catch((err) => {
+                next(err);
+            });
+    })
+    .patch(jsonParser, checkRequiredFields, validateShipment, (req, res, next) => {
+        const {id} = req.params;
+        const carrier_id = req.carrier.id
+        const db = req.app.get('db');
+
+        const updatedShipment = {
+            
+        }
+
+        res.send('ok');
     })
 
 async function getWarehouseId(db, city, state, zipcode){
