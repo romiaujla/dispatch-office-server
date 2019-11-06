@@ -11,7 +11,16 @@ const {
 shipmentsRouter
     .route('/')
     .post(jsonParser, checkRequiredFields, validateShipment, (req, res, next) => {
-        res.send('ok');
+
+        let {
+            pickup_date, 
+            delivery_date
+        } = req.body
+
+
+
+
+        res.send(`Pickup date: ${pickup_date}, Delivery date: ${delivery_date}`);
     })
 
 module.exports = shipmentsRouter;
