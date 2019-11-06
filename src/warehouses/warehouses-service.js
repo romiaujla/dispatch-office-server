@@ -1,9 +1,8 @@
 const WarehouseService = {
-  updateWarehouse(db, id, newFields, carrier_id) {
+  updateWarehouse(db, id, newFields) {
     console.log(newFields);
     return db("warehouses")
-      .where({ id })
-      .andWhere({ carrier_id })
+      .where({ id })      
       .update(newFields);
   },
   insertWarehouse(db, city, state, zipcode) {

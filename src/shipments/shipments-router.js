@@ -139,16 +139,140 @@ shipmentsRouter
                 next(err);
             });
     })
-    .patch(jsonParser, checkRequiredFields, validateShipment, (req, res, next) => {
+    .patch(jsonParser, async (req, res, next) => {
         const {id} = req.params;
         const carrier_id = req.carrier.id
         const db = req.app.get('db');
 
-        const updatedShipment = {
-            
+        let {
+            pickup_date, 
+            delivery_date
+        } = req.body
+
+        // `Replacing '/' backslashes to '-' dashes for date to be stored in correct
+        // form in the database`
+        if(pickup_date){
+            pickup_date = pickup_date.replace(/\//g,'-');
+        }
+        if(delivery_date){
+            delivery_date = pickup_date.replace(/\//g,'-');
         }
 
-        res.send('ok');
+        const newPickupWarehouse = {
+            city: req.body.pickup_city,
+            state: req.body.pickup_state,
+            zipcode: req.body.delivery_zipcode
+        }
+        const newDeliveryWarehouse = {
+            city: req.body.delivery_city,
+            state: req.body.delivery_state,
+            zipcode: req.body.delivery_zipcode
+        }
+
+        let updatePickup = false;
+        let updateDelivery = false;
+
+        for(let key in newPickupWarehouse){
+            if(newPickupWarehouse[key]){
+                updatePickup = true;
+            }
+            if(newDeliveryWarehouse[key]){
+                updateDelivery = true;
+            }
+        }
+        
+        // Enter service only if warehouses are to be edited
+        if(updatePickup || updateDelivery){
+            ShipmentsService.getWarehouses(db, id, carrier_id)
+            .then((shipment) => {
+                if(!shipment){
+                    return res
+                        .json({
+                            error: {
+                                message: `Could not find warehouses`
+                            }
+                        })
+                }
+                
+                // if update pickup values were provided only then update the 
+                // warehouse, else it will run into an error of Empty .update()
+                if(updatePickup){
+                    WarehouseService.updateWarehouse(
+                        db,
+                        shipment.pickup_warehouse,
+                        newPickupWarehouse
+                    )
+                        .then((warehouse) => {
+                            if(!warehouse){
+                                return res
+                                    .json({
+                                        error: {
+                                            message: `Could not update pickup warehouse`
+                                        }
+                                    })
+                            }
+                            return warehouse;
+                        })
+                        .catch((err) => {
+                            next(err);
+                        })
+                }
+                
+                // if update delivery values were provided only then update the 
+                // warehouse, else it will run into an error of Empty .update()
+                if(updateDelivery){
+                    WarehouseService.updateWarehouse(
+                        db,
+                        shipment.delivery_warehouse,
+                        newDeliveryWarehouse
+                    )
+                        .then((warehouse) => {
+                            if(!warehouse){
+                                return res
+                                    .json({
+                                        error: {
+                                            message: `Could not update delivery warehouse`
+                                        }
+                                    })
+                            }
+                            return warehouse;
+                        })
+                        .catch((err) => {
+                            next(err);
+                        })
+                }
+                
+            })
+        }
+        
+
+        const newFields = {
+            rate: req.body.rate, 
+            status: req.body.status, 
+            miles: req.body.miles, 
+            driver_id: req.body.driver_id, 
+            broker: req.body.broker,
+            pickup_date,
+            delivery_date
+        }
+
+        
+        ShipmentsService.updateShipment(db, id, newFields, carrier_id) 
+            .then((updatedShipment) => {
+                if(!updatedShipment){
+                    return res
+                        .status(400)
+                        .json({
+                            error: {
+                                message: `Could not update the shipment`
+                            }
+                        })
+                }
+                return res.status(201).json(updatedShipment)
+            })
+            .catch((err) => {
+                next(err);
+            })
     })
 
 async function getWarehouseId(db, city, state, zipcode){
