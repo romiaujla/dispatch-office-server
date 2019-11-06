@@ -25,7 +25,7 @@ shipmentsRouter
         // `Replacing '/' backslashes to '-' dashes for date to be stored in correct
         // form in the database`
         pickup_date = pickup_date.replace(/\//g,'-');
-        delivery_date = pickup_date.replace(/\//g,'-');
+        delivery_date = delivery_date.replace(/\//g,'-');
 
         let newShipment = {
             rate: req.body.rate || 0.0, 
@@ -155,13 +155,13 @@ shipmentsRouter
             pickup_date = pickup_date.replace(/\//g,'-');
         }
         if(delivery_date){
-            delivery_date = pickup_date.replace(/\//g,'-');
+            delivery_date = delivery_date.replace(/\//g,'-');
         }
 
         const newPickupWarehouse = {
             city: req.body.pickup_city,
             state: req.body.pickup_state,
-            zipcode: req.body.delivery_zipcode
+            zipcode: req.body.pickup_zipcode
         }
         const newDeliveryWarehouse = {
             city: req.body.delivery_city,
