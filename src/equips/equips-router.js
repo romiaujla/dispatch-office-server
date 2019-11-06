@@ -93,7 +93,7 @@ equipsRouter
                 next(err);
             })
     })
-    .patch(jsonParser, (req, res, next) => {
+    .patch(jsonParser, validateEquipment, (req, res, next) => {
         const {id} = req.params;
         const db = req.app.get('db');
         const {
@@ -101,9 +101,6 @@ equipsRouter
             status = 'active',
         } = req.body;
         const carrier_id = req.carrier.id;
-
-        // Validation
-        validateEquipment({unit_num, status}, res)
 
         const newEquipment = {
             unit_num,

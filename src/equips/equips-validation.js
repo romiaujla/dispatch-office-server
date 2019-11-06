@@ -22,14 +22,16 @@ function validateEquipment(req, res, next){
             })
     }
 
-    if(!['active', 'inactive'].includes(status)){
-        return res
-            .status(400)
-            .json({
-                error: {
-                    message: `Status can be either active for inactive`
-                }
-            })
+    if(status){
+        if(!['active', 'inactive'].includes(status)){
+            return res
+                .status(400)
+                .json({
+                    error: {
+                        message: `Status can be either active for inactive`
+                    }
+                })
+        }
     }
 
     next();
