@@ -9,6 +9,7 @@ const errorHandler = require('./middleware/error-handler');
 const authRouter = require('./auth/auth-router');
 const driverRouter = require('./drivers/drivers-router');
 const equipsRouter = require('./equips/equips-router');
+const shipmentsRouter = require('./shipments/shipments-router');
 
 const app = express();
 const morganOptions = NODE_ENV === 'production' 
@@ -22,6 +23,7 @@ app.use('/api', carrierRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/drivers', driverRouter);
 app.use('/api/equips', equipsRouter);
+app.use('/api/shipments', shipmentsRouter);
 
 app.use(errorHandler);
 
