@@ -105,7 +105,7 @@ driverRouter
           });
         }
 
-        return res.status(201).end();
+        return res.status(201).json(updatedDriver);
       })
       .catch(err => {
         next(err);
