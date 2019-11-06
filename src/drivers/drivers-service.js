@@ -71,7 +71,6 @@ const DriverService = {
             });
     },
     updateDrivers(db, id, newFields, carrier_id){
-        console.log(newFields);
         return db('drivers')
             .where({ id })
             .andWhere({ carrier_id })
