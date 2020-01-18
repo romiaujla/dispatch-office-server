@@ -72,6 +72,7 @@ authRouter
                             }
                         })
                     })
+                    .catch(next);
             })
             .catch(next)
 
