@@ -4,7 +4,7 @@
   "description": "This is a boilerplate project used for starting new projects!",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test",
+    "test": "mocha test --require test/setup.js --watch",
     "start": "node ./src/server",
     "dev": "nodemon ./src/server",
     "migrate": "postgrator --config postgrator-config.js",
