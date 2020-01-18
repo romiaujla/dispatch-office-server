@@ -25,6 +25,10 @@ app.use('/api/drivers', driverRouter);
 app.use('/api/equips', equipsRouter);
 app.use('/api/shipments', shipmentsRouter);
 
+app.get('/', (req, res, next) => {
+    res.send(`Server running`);
+})
+
 app.use(errorHandler);
 
 module.exports = app;
