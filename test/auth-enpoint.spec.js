@@ -11,7 +11,7 @@ describe(`Auth Endpoint`, () => {
     let db;
     const carriersToTest = 1; //must be between 0 - 2, as there are three testers
     const users = makeUsersArray();
-    const userToLogin = getLogins()[0];
+    const userToLogin = getLogins()[carriersToTest];
 
     before(`make knex instance`, () => {
         db = knex({
