@@ -26,40 +26,40 @@ Complete the following steps to clone the server:
 
 
 ## Endpoints
-- POST /api/auth/login
+- `POST /api/auth/login`
    - Logs the user in by checking if the username and password match in the DB and returns a jwt authentication token, along with users full name, company name and mc num.
 
-- GET /api/carrier
+- `GET /api/carrier`
    - Returns all the shipments and drivers/equipments if any assigned to the carrier
 
-- GET /api/carrier-info
+- `GET /api/carrier-info`
    - Returns the carries information which includes their full name, company name and mc num.
 
--  GET /api/drivers
+- `GET /api/drivers`
    - Returns all the drivers for the carrier who is logged in
 
--  POST /api/drivers
+- `POST /api/drivers`
    - Adds a new driver to the carrier 
 
-- PATCH /api/drivers/:id
+- `PATCH /api/drivers/:id`
    - Updates a driver
 
-- GET /api/equips
+- `GET /api/equips`
    - Returns all the equipments for the carrier who is logged in
 
-- POST /api/equips
+- `POST /api/equips`
    - Adds a new equipments to the carrier
 
-- GET /api/equips/:id
+- `GET /api/equips/:id`
    - Returns the equipment whose id is passed in the params
 
-- PATCH /api/equips/:id
+- `PATCH /api/equips/:id`
    - Updates an equipment with the id number passed in the params
 
-- POST /api/shipments
+- `POST /api/shipments`
    - Adds a new shipment to the carriers list
 
-- PATCH /api/shipments/:id
+- `PATCH /api/shipments/:id`
    - Updates the shipment 
 
 ## Scripts
