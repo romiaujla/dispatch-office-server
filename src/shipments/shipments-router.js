@@ -105,6 +105,7 @@ shipmentsRouter
                         })
                 }
                 return res
+                    .status(201)
                     .json(addedShipment);
             })
             .catch((err) => {

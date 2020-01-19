@@ -59,7 +59,7 @@ equipsRouter
                         })
                 }
                 return res
-                    .status(200)
+                    .status(201)
                     .json(EquipmentService.serializeEquipment(equipment))
             })
             .catch((err) => {

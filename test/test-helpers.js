@@ -120,6 +120,15 @@ function cleanTables(db){
     `)
 }
 
+function splitArrayWithComma(arr){
+    let tempArr = [...arr];
+    let [lastWord, ...restOftheArray] = [
+        tempArr.pop(),
+        ...tempArr
+    ]
+    return `${restOftheArray.join(', ')} or ${lastWord}`;
+}
+
 module.exports = {
     makeUsersArray,
     cleanTables,
@@ -128,4 +137,5 @@ module.exports = {
     makeDriversArray,
     makeShipmentsArray,
     makeWarehousesArray,
+    splitArrayWithComma,
 }

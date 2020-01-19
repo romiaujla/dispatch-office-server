@@ -4,7 +4,6 @@ function validateShipment(req, res, next){
         rate, 
         status, 
         miles, 
-        driver_id, 
         pickup_date,
         delivery_date,
         pickup_city,
@@ -36,12 +35,6 @@ function validateShipment(req, res, next){
         }
     }
 
-    if(driver_id){
-        if(isPositiveNumber(driver_id)){
-            return response(res, 400, `Driver id must be a positive integer`)
-        }
-    }
-
     if(!statusArray.includes(status)){
         return response(res, 400, `Status can only be one of ${splitArrayWithComma(statusArray)}`)
     }
@@ -58,7 +51,7 @@ function validateShipment(req, res, next){
         return response(res, 400, `Pickup City cannot be empty spaces`)
     }
 
-    if(isEmpty(delivery_city)){
+    if(isEmpty(delivery_city) || !delivery_city){
         return response(res, 400, `Delivery City cannot be empty spaces`)
     }
 
@@ -91,7 +84,7 @@ function notValidDate(date){
 }
 
 function isPositiveNumber(num){
-    return isNaN(num) && num > 0;
+    return isNaN(num) || num < 0;
 }
 
 function response(res, status, error){
@@ -109,7 +102,7 @@ function splitArrayWithComma(arr){
         arr.pop(),
         ...arr
     ]
-    return `${restOftheArray.join(', ')} and ${lastWord}`;
+    return `${restOftheArray.join(', ')} or ${lastWord}`;
 }
 
 function checkRequiredFields(req, res, next){
